@@ -47,12 +47,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        setupUI();
+
+        already_reg=(TextView)findViewById(R.id.already_reg);
+        google_button=(Button)findViewById(R.id.google_button);
+
+
+
+
+        //this is where we start the authlistener to see if the user is already signed in or now...
+        mAuth=FirebaseAuth.getInstance();
+
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth mAuth) {
+
+
+                if (mAuth.getCurrentUser()!=null)//if the user is logged in,we redirect user from one intent to another one.
+                {
+                    Toast.makeText(MainActivity.this,"You are already signed in",Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+                    //startActivity(new Intent(MainActivity.this,NextActivity_1.class));
+                }
+
+            }
+        };
+
 
 
         google_button.setOnClickListener(new View.OnClickListener() {
@@ -61,22 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 signIn();
             }
         });
-
-
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                if (firebaseAuth.getCurrentUser()!=null)//if the user is logged in,we redirect user from one intent to another one.
-                {
-
-                    startActivity(new Intent(MainActivity.this,NextActivity_1.class));
-                }
-
-            }
-        };
-
-
 
 
 
@@ -98,8 +112,6 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }//closing of oncreate().
-
-
 
 
 
@@ -157,18 +169,32 @@ public class MainActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(MainActivity.this,"Successfull sign in!!!",Toast.LENGTH_SHORT).show();
 
-                           // updateUI(user);
+   //the above object is the firebase user object.In this object all the user info is kept,eg name,emailid,etc
+
+                            if (user!=null)//if the user is logged in,we redirect user from one intent to another one.
+                            {
+
+                                Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+
+//                                startActivity(new Intent(MainActivity.this,NextActivity_1.class));
+                            }
+
+                            Toast.makeText(MainActivity.this,"Successful Sign in!",Toast.LENGTH_SHORT).show();
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+
                             Toast.makeText(MainActivity.this,"Authenicattion failed!!",Toast.LENGTH_SHORT).show();
                            // updateUI(null);
                         }
 
-                        // ...
+
                     }
                 });
 
@@ -183,15 +209,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void setupUI()
 
-    {
-
-        already_reg=(TextView)findViewById(R.id.already_reg);
-        google_button=(Button)findViewById(R.id.google_button);
-        mAuth=FirebaseAuth.getInstance();
-
-    }
 
 
 }

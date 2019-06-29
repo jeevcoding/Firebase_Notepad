@@ -22,6 +22,8 @@ public class NextActivity_1 extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListener);
+
+
     }
 
     @Override
@@ -34,18 +36,23 @@ public class NextActivity_1 extends AppCompatActivity {
 
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(@NonNull FirebaseAuth mAuth) {
 
-                if(firebaseAuth.getCurrentUser()==null)
+                if(mAuth.getCurrentUser()==null)
                 {
-                    startActivity(new Intent(NextActivity_1.this,MainActivity.class));
+
+
+                    Intent intent = new Intent(NextActivity_1.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+//                    startActivity(new Intent(NextActivity_1.this,MainActivity.class));
                     Toast.makeText(NextActivity_1.this,"Signing out!!",Toast.LENGTH_SHORT).show();
                 }
+                
 
             }
         };
-
-
 
 
 
@@ -63,5 +70,26 @@ public class NextActivity_1 extends AppCompatActivity {
 
 
 
+    }//closing of oncreate()
+
+
+    /*
+
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+if (user != null) {
+    for (UserInfo profile : user.getProviderData()) {
+        // Id of the provider (ex: google.com)
+        String providerId = profile.getProviderId();
+
+        // UID specific to the provider
+        String uid = profile.getUid();
+
+        // Name, email address, and profile photo Url
+        String name = profile.getDisplayName();
+        String email = profile.getEmail();
+        Uri photoUrl = profile.getPhotoUrl();
     }
+}
+     */
+
 }
