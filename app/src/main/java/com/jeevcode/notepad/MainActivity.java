@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private final static int RC_SIGN_IN=123;//this is a request code
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth.AuthStateListener mAuthListener;
+    private EditText u_mail;
+    private EditText u_pass;
+    Button reg_button;
+
 
 
     @Override
@@ -54,15 +59,64 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+        //the below line is very imp.....
+        mAuth=FirebaseAuth.getInstance();
+
 
         already_reg=(TextView)findViewById(R.id.already_reg);
         google_button=(Button)findViewById(R.id.google_button);
+        u_mail=(EditText)findViewById(R.id.u_mail);
+        u_pass=(EditText)findViewById(R.id.u_pass);
+        reg_button=(Button)findViewById(R.id.reg_button);
+
+
+        reg_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(validate())
+                {
+                    String emailOfUser=u_mail.getText().toString().trim();
+                    String passOfUser=u_pass.getText().toString().trim();
+
+                    Toast.makeText(MainActivity.this,"pass value.."+passOfUser,Toast.LENGTH_SHORT).show();
+
+                    mAuth.createUserWithEmailAndPassword(emailOfUser,passOfUser).addOnCompleteListener(new OnCompleteListener<AuthResult>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+
+                            if(task.isSuccessful())
+                            {
+                            Toast.makeText(MainActivity.this,"Registration Successful!",Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                            else {
+                                    Log.e(TAG,"onComplete failed=="+task.getException().getMessage());
+                                Toast.makeText(MainActivity.this,"Registration Unsuccessful! Please Login if you already have an account!",Toast.LENGTH_SHORT).show();
+                            }
+
+
+                        }
+                    });
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"Validation unseccessful!",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
 
 
 
+        //Imp part starts here...........................
         //this is where we start the authlistener to see if the user is already signed in or now...
-        mAuth=FirebaseAuth.getInstance();
+
 
         mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
@@ -97,11 +151,13 @@ public class MainActivity extends AppCompatActivity {
         already_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,loginActivity.class));
+
+                Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
             }
         });
-
-
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -115,6 +171,25 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+    private Boolean validate(){
+        Boolean result=false;
+        String mail_u=u_mail.getText().toString();
+        String pass_u=u_pass.getText().toString();
+
+        if(mail_u.isEmpty() || pass_u.isEmpty())
+        {
+            Toast.makeText(MainActivity.this,"Please enter the details!",Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+            result= true;
+        }
+
+        return result;
+    }
 
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
