@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                     String emailOfUser=u_mail.getText().toString().trim();
                     String passOfUser=u_pass.getText().toString().trim();
 
-                    Toast.makeText(MainActivity.this,"pass value.."+passOfUser,Toast.LENGTH_SHORT).show();
+
 
                     mAuth.createUserWithEmailAndPassword(emailOfUser,passOfUser).addOnCompleteListener(new OnCompleteListener<AuthResult>()
                     {
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
                 else{
-                    Toast.makeText(MainActivity.this,"Validation unseccessful!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"Validation unsuccessful!",Toast.LENGTH_SHORT).show();
                 }
 
             }
