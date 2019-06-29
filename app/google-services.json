@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "997414985760",
+    "firebase_url": "https://my-safenotepad-app.firebaseio.com",
+    "project_id": "my-safenotepad-app",
+    "storage_bucket": "my-safenotepad-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:997414985760:android:aeef6c6af20b92d9",
+        "android_client_info": {
+          "package_name": "com.jeevcode.notepad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "997414985760-n10c02nqr7ikjkml977ffbsh121333bk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jeevcode.notepad",
+            "certificate_hash": "b2b15b7c3b1041576fec099d7178ba39317b2c1e"
+          }
+        },
+        {
+          "client_id": "997414985760-c6bs1vghq4i7p351v6o7ppqt2baub5t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAojgRs8uGR0D07FC_jU9ZwrnrvBk3KWxo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "997414985760-c6bs1vghq4i7p351v6o7ppqt2baub5t0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
