@@ -66,7 +66,12 @@ private static final String TAG="loginactivity";
             @Override
             public void onClick(View v) {
 
-                validate(enter_username.getText().toString(),enter_pass.getText().toString());
+                if(validation()) {
+                    validate(enter_username.getText().toString(), enter_pass.getText().toString());
+                }else{
+                    Toast.makeText(loginActivity.this,"Please enter details!",Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -86,6 +91,24 @@ private static final String TAG="loginactivity";
 
     }
 
+
+    private    Boolean validation(){
+
+        Boolean result=false;
+        String u=enter_username.getText().toString();
+        String p=enter_pass.getText().toString();
+
+        if(u.isEmpty() || p.isEmpty())
+        {
+            Toast.makeText(loginActivity.this,"Please enter the details!",Toast.LENGTH_SHORT).show();
+
+        }
+        else{
+            result= true;
+        }
+
+        return result;
+    }
 
     private void validate(String uname,String pass)
 
