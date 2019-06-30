@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class NextActivity_1 extends AppCompatActivity {
     TextView upass;
     private String name;
     private String email;
-
+    private static final String TAG="NextACtivity";
 
     @Override
     protected void onStart() {
@@ -40,11 +41,11 @@ public class NextActivity_1 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_1);
 
-
         uname=(TextView)findViewById(R.id.user_name);
         upass=(TextView)findViewById(R.id.user_pass);
         logout_button=(Button)findViewById(R.id.Logout);
         mAuth=FirebaseAuth.getInstance();
+        Log.d(TAG,"entered the NEXTACTIVITY:**********************************************************");
 
         mAuthListener=new FirebaseAuth.AuthStateListener()
         {
@@ -69,10 +70,7 @@ public class NextActivity_1 extends AppCompatActivity {
                     for (UserInfo profile : user.getProviderData())
                     {
                         // Id of the provider (ex: google.com)
-                        //String providerId = profile.getProviderId();
 
-                        // UID specific to the provider
-                        //String uid = profile.getUid();
 
                         // Name, email address, and profile photo Url
                          name = profile.getDisplayName();

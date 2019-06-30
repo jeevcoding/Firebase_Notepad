@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText u_mail;
     private EditText u_pass;
     Button reg_button;
+     public Boolean verified=false;
 
 
 
@@ -70,6 +71,34 @@ public class MainActivity extends AppCompatActivity {
         reg_button=(Button)findViewById(R.id.reg_button);
 
 
+
+        mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth mAuth) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (user!=null)//if the user is logged in,we redirect user from one intent to another one.
+                {
+
+                    if(verified) {
+                        Toast.makeText(MainActivity.this, "You are already signed in", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "entered AUTHSTATELISTENER and called nextactivity:Mainactivity@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2222222222");
+                        Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                    //startActivity(new Intent(MainActivity.this,NextActivity_1.class));
+                }
+
+            }
+        };
+
+
+
+
+
+
         reg_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +117,15 @@ public class MainActivity extends AppCompatActivity {
 
                             if(task.isSuccessful())
                             {
-                            Toast.makeText(MainActivity.this,"Registration Successful!",Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
-                                finish();
+
+                                sendEmailVerification();
+                                checkEmailverification();
+
+
+                                Log.d(TAG, "entered task is successful:Mainactivity!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+
+
+
 
                             }
                             else {
@@ -118,24 +151,7 @@ public class MainActivity extends AppCompatActivity {
         //this is where we start the authlistener to see if the user is already signed in or now...
 
 
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth mAuth) {
 
-
-                if (mAuth.getCurrentUser()!=null)//if the user is logged in,we redirect user from one intent to another one.
-                {
-                    Toast.makeText(MainActivity.this,"You are already signed in",Toast.LENGTH_SHORT).show();
-
-                    Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                    //startActivity(new Intent(MainActivity.this,NextActivity_1.class));
-                }
-
-            }
-        };
 
 
 
@@ -160,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Configure Google Sign In
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -249,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (user!=null)//if the user is logged in,we redirect user from one intent to another one.
                             {
-
+                                Log.d(TAG,"entered the one for google button:Mainactivity!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
                                 Intent intent = new Intent(MainActivity.this, NextActivity_1.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -279,7 +296,55 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        private void sendEmailVerification(){
 
+        FirebaseUser fuser=mAuth.getCurrentUser();
+        if(fuser!=null)
+        {
+
+            fuser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+
+                    if(task.isSuccessful())
+                    {
+                     Toast.makeText(MainActivity.this,"succesfully registered, email verification sent!Please verify!",Toast.LENGTH_SHORT).show();
+
+                     mAuth.signOut();//you do not want user to get into the app unless he verifies his email
+
+                      /*  Intent intent = new Intent(MainActivity.this, loginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                        */
+
+                    }else{
+
+                        Toast.makeText(MainActivity.this,"Verification mail hasnt been sent!!Try again after sometime!",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        }
+
+    private void checkEmailverification(){
+
+        FirebaseUser fuser=mAuth.getInstance().getCurrentUser();
+        Boolean emailflag=fuser.isEmailVerified();
+
+        if(emailflag)
+        {
+            verified=true;
+            Intent intent = new Intent(MainActivity.this, loginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+        }else{
+            Toast.makeText(MainActivity.this,"Verify your email!!",Toast.LENGTH_SHORT).show();
+            mAuth.signOut();
+
+        }
+    }
 
 
 
