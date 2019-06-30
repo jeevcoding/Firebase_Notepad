@@ -65,7 +65,7 @@ private static final String TAG="loginactivity";
         enter_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if(validation){
+                    if(validation()){
                 validate(enter_username.getText().toString(),enter_pass.getText().toString());
                     }else{
                     Toast.makeText(loginActivity.this,"Please enter details!",Toast.LENGTH_SHORT).show();
