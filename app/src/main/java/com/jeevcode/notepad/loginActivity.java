@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import static android.os.Build.VERSION_CODES.O;
 
 public class loginActivity extends AppCompatActivity {
@@ -18,6 +20,8 @@ public class loginActivity extends AppCompatActivity {
     Button enter_login;
     EditText enter_pass;
     EditText enter_username;
+    private FirebaseAuth firebaseAuth;
+
 
 
 
@@ -33,6 +37,7 @@ public class loginActivity extends AppCompatActivity {
         enter_username=(EditText)findViewById(R.id.enter_username);
 
 
+        firebaseAuth=FirebaseAuth.getInstance();
 
 
         enter_havent_reg.setOnClickListener(new View.OnClickListener() {
