@@ -72,6 +72,18 @@ private static final String TAG="loginactivity";
 
 
 
+        enter_forgot_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(loginActivity.this, ForgotPasswordActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
     }
 
 
@@ -86,10 +98,8 @@ private static final String TAG="loginactivity";
 
                 if (task.isSuccessful())
                 {
-                    Toast.makeText(loginActivity.this,"Login Successful!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(loginActivity.this, NextActivity_1.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    //Toast.makeText(loginActivity.this,"Login Successful!",Toast.LENGTH_SHORT).show();
+                    checkEmailverification();
 
                 }else{
                     Toast.makeText(loginActivity.this,"Login Failed!",Toast.LENGTH_SHORT).show();
@@ -100,6 +110,30 @@ private static final String TAG="loginactivity";
         });
     }
 
+
+
+
+
+    private void checkEmailverification(){
+
+        FirebaseUser fuser=firebaseAuth.getInstance().getCurrentUser();
+        Boolean emailflag=fuser.isEmailVerified();
+
+        if(emailflag)
+        {
+            //verified=true;
+            Toast.makeText(loginActivity.this,"Login Successful!",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(loginActivity.this, NextActivity_1.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+
+        }else{
+            Toast.makeText(loginActivity.this,"Verify your email!!",Toast.LENGTH_SHORT).show();
+            firebaseAuth.signOut();
+
+        }
+    }
 
 
 
