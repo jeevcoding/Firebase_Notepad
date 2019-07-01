@@ -30,14 +30,7 @@ public class NextActivity_1 extends AppCompatActivity {
     private String email;
     private static final String TAG="NextACtivity";
 
-    @Override
-    protected void onStart() {
-        super.onStart();
 
-        mAuth.addAuthStateListener(mAuthListener);
-
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,44 +46,9 @@ public class NextActivity_1 extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
         Log.d(TAG,"entered the NEXTACTIVITY:**********************************************************");
 
-        mAuthListener=new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth mAuth)
-            {
-
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user == null)
-                {
-
-                    finish();
-                    Intent intent = new Intent(NextActivity_1.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    //finish this NextActivity_1
-
-                    // startActivity(new Intent(NextActivity_1.this,MainActivity.class));
-                    Toast.makeText(NextActivity_1.this,"Signing out***!!",Toast.LENGTH_SHORT).show();
-                }
-                else{
-
-                    for (UserInfo profile : user.getProviderData())
-                    {
-                        // Id of the provider (ex: google.com)
 
 
-                        // Name, email address, and profile photo Url
-                         name = profile.getDisplayName();
-                         email = profile.getEmail();
-                        uname.setText(name);
-                        upass.setText(email);
-                        //Uri photoUrl = profile.getPhotoUrl();
-                    }
 
-                }
-
-            }
-        };
 
 
 
@@ -115,6 +73,16 @@ public class NextActivity_1 extends AppCompatActivity {
     }//closing of oncreate()
 
 
+
+    private void Logout(){
+        
+        mAuth.signOut();
+        finish();
+        startActivity(new Intent(NextActivity_1.this,loginActivity.class));
+
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -130,7 +98,7 @@ public class NextActivity_1 extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.logoutMenu:{
-                mAuth.signOut();
+                Logout();
             }
 
         }
