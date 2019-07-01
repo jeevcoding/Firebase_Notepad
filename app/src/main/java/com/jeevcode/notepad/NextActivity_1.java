@@ -45,7 +45,7 @@ public class NextActivity_1 extends AppCompatActivity {
 
         uname=(TextView)findViewById(R.id.user_name);
         upass=(TextView)findViewById(R.id.user_pass);
-        logout_button=(Button)findViewById(R.id.Logout);
+       // logout_button=(Button)findViewById(R.id.Logout);
 
 
         mAuth=FirebaseAuth.getInstance();
@@ -93,20 +93,20 @@ public class NextActivity_1 extends AppCompatActivity {
 
 
 
-        logout_button.setOnClickListener(new View.OnClickListener()
-
-        {
-            @Override
-            public void onClick(View v)
-
-            {
-                //Toast.makeText(NextActivity_1.this,"Signing out () called!!",Toast.LENGTH_SHORT).show();
-                mAuth.signOut();
-
-
-
-            }
-        });
+//        logout_button.setOnClickListener(new View.OnClickListener()
+//
+//        {
+//            @Override
+//            public void onClick(View v)
+//
+//            {
+//                //Toast.makeText(NextActivity_1.this,"Signing out () called!!",Toast.LENGTH_SHORT).show();
+//                mAuth.signOut();
+//
+//
+//
+//            }
+//        });
 
 
 

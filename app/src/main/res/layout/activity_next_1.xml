@@ -7,7 +7,7 @@
     android:background="#765675"
     tools:context=".NextActivity_1">
 
-    <Button
+   <!-- <Button
         android:id="@+id/Logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823" />
+        app:layout_constraintVertical_bias="0.823" />  -->
 
     <TextView
         android:id="@+id/user_name"
