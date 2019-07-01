@@ -61,14 +61,14 @@ public class NextActivity_1 extends AppCompatActivity {
                 if(user == null)
                 {
 
-
+                    finish();
                     Intent intent = new Intent(NextActivity_1.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    finish();//finish this NextActivity_1
+                    //finish this NextActivity_1
 
                     // startActivity(new Intent(NextActivity_1.this,MainActivity.class));
-                    Toast.makeText(NextActivity_1.this,"Signing out!!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NextActivity_1.this,"Signing out***!!",Toast.LENGTH_SHORT).show();
                 }
                 else{
 
