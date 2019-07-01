@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +46,8 @@ public class NextActivity_1 extends AppCompatActivity {
         uname=(TextView)findViewById(R.id.user_name);
         upass=(TextView)findViewById(R.id.user_pass);
         logout_button=(Button)findViewById(R.id.Logout);
+
+
         mAuth=FirebaseAuth.getInstance();
         Log.d(TAG,"entered the NEXTACTIVITY:**********************************************************");
 
@@ -61,8 +65,9 @@ public class NextActivity_1 extends AppCompatActivity {
                     Intent intent = new Intent(NextActivity_1.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
-                    finish();
-//                    startActivity(new Intent(NextActivity_1.this,MainActivity.class));
+                    finish();//finish this NextActivity_1
+
+                    // startActivity(new Intent(NextActivity_1.this,MainActivity.class));
                     Toast.makeText(NextActivity_1.this,"Signing out!!",Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -108,23 +113,25 @@ public class NextActivity_1 extends AppCompatActivity {
     }//closing of oncreate()
 
 
-    /*
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-if (user != null) {
-    for (UserInfo profile : user.getProviderData()) {
-        // Id of the provider (ex: google.com)
-        String providerId = profile.getProviderId();
+        getMenuInflater().inflate(R.menu.menu, menu);
 
-        // UID specific to the provider
-        String uid = profile.getUid();
 
-        // Name, email address, and profile photo Url
-        String name = profile.getDisplayName();
-        String email = profile.getEmail();
-        Uri photoUrl = profile.getPhotoUrl();
+        return true;
     }
-}
-     */
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.logoutMenu:{
+                mAuth.signOut();
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
